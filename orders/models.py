@@ -27,4 +27,8 @@ class Order(models.Model):
     def get_cost(self):
         return self.ticket.travel.price * self.quantity
 
-    
+    @property
+    def get_total_cost_for_user(self):
+        orders = Order.objects.filter(user=self.user)
+        total_cost = sum(order.get_cost for order in orders)
+        return total_cost

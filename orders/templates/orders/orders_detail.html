@@ -66,6 +66,8 @@ table tbody tr th::before {
         <td>{{ order.get_cost }}</td>
         <td><a href="{% url 'orders:order_delete' %}?order_id={{ order.id }}" class="btn btn-danger">Delete</a></td>
       </tr>
+      <td>Total cost:{{ order.get_total_cost_for_user }}</td>
+
     {% endfor %} 
 
     </tbody>
