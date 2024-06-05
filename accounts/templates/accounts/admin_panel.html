@@ -2,14 +2,16 @@
 
 {% block content %}
     <h4>Admin Panel</h4><br>
+<div style="display: flex; gap: 16px; flex-wrap: wrap;">     
+
     <a href="{% url 'accounts:list_city' %}" class="btn btn-info col-md-1">cities</a> 
-    <a href="{% url 'accounts:car_list' %}" class="btn btn-info col-md-1">Cars</a>
-    <a href="{% url 'accounts:driver_detail' %}" class="btn btn-info col-md-1">Drivers</a> <br> <br>
+    <a href="{% url 'accounts:car_list' %}" class="btn btn-info col-md-1">Cars</a> <br>
+    <a href="{% url 'accounts:driver_detail' %}" class="btn btn-info col-md-1">Drivers</a>  
     <a href="{% url 'accounts:travel_detail' %}" class="btn btn-info col-md-1">Travels</a>
     <a href="{% url 'orders:ticket_list' %}" class="btn btn-info col-md-1">Tickets</a> <br> <br>
     <a href="{% url 'accounts:base_time' %}" class="btn btn-info col-md-1">Base Time</a> 
     <a href="{% url 'accounts:price_list' %}" class="btn btn-info col-md-1">Base Price</a><br> <br>
     <a href="{% url 'accounts:transection_list' %}" class="btn btn-info col-md-1">Transection list</a>
     <a href="{% url 'accounts:base_percent' %}" class="btn btn-info col-md-1">Base Percent</a>
-
+</div>
 {% endblock %}
