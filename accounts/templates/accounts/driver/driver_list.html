@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+<table class="table table-bordered table-dark">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Car</th>
+        <th scope="col">capacity</th>
+        <th scope="col">Productions-date</th>
+        <th scope="col">Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+   
+        {% for driver in drivers %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{ driver.driver }}</td>
+        <td>{{ driver.car }}</td>
+        <td>{{ driver.car.capacity }}</td>
+        <td>{{ driver.production_date }}</td>
+        <td><a href="{% url 'accounts:driver_delete' %}?driver_id={{ driver.id }}">Remove</a></td>
+      </tr>
+      {% endfor %}
+   
+    </tbody>
+</table>
+    <br>
+  <a href="{% url 'accounts:driver_panel' %}" class="btn btn-info col-md-1">Driver Register</a>
+{% endblock %}

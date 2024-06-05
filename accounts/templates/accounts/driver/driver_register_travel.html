@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ travel_form.as_p }} <br>
+        <input type="submit" class="btn btn-success">
+    </form>
+{% endblock %}

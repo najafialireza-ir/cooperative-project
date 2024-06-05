@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ travel_form.as_p }}
+        {{ price_form.as_p }}
+        <input type="submit" class="btn btn-success">
+    </form>
+  
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  
+<table class="table table-bordered table-dark">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th scope="col">Driver_Car</th>
+        <th scope="col">startcity</th>
+        <th scope="col">destanition</th>
+        <th scope="col">price</th>
+        <th scope="col">distance</th>
+        <th scope="col">start-time</th>
+        <th scope="col">end-time</th>
+        <th scope="col">date</th>
+        <th scope="col">Approve</th>
+        <th scope="col">Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for travel in travels %}
+      
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{ travel.driver_car }}</td>
+        <td>{{ travel.startcity }}</td>
+        <td>{{ travel.destanition }}</td>
+        <td>{{ travel.get_cost }}</td>
+        <td>{{ travel.get_distance }}.Km</td>
+        <td>{{ travel.date_time.time }}</td>
+
+        <td>{{ travel.end_time.time }} Date: {{ travel.end_time.date|date:"D-d-m-Y" }}</td>
+
+        <td>{{ travel.date_time.date }}</td>
+        {% if travel.approved == False %}
+          <td><a href="{% url 'accounts:approve_travel' travel.id %}" class="btn btn-success">Accept</a></td>
+        {% else %}
+          <td>Approved</td>
+        {% endif %}
+        <td><a href="{% url 'accounts:delete_travel' %}?travel_id={{ travel.id }}" class="btn btn-danger">Remove</a></td>
+      </tr>
+      {% endfor %}
+   
+    </tbody>
+</table>
+    <br>
+    <a href="{% url 'accounts:travel_admin' %}" class="btn btn-info col-md-1">Register Travel</a>
+ 
+{% endblock %}

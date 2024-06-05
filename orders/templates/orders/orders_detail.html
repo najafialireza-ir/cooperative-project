@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<br>
+
+<!-- CSS -->
+<style>
+  .myTable { 
+    width: 100%;
+    text-align: left;
+    background-color: rgb(245, 243, 223);
+    border-collapse: collapse; 
+    }
+  .myTable th { 
+    background-color: rgb(248, 221, 155);
+    color: rgb(49, 47, 47); 
+    }
+  .myTable td, 
+  .myTable th { 
+    padding: 10px;
+    border: 1px solid goldenrod; 
+    }
+
+    body {
+    counter-reset: section;
+}
+
+table tbody tr th::before {
+    counter-increment: section;
+    content: "Section " counter(section);
+}
+
+table tbody tr th::before {
+    content: counter(section);
+}
+</style>
+
+<h4>Your Orders:</h4> <br>
+<table class="myTable">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th scope="col">driver and car</th>
+        <th scope="col">startcity</th>
+        <th scope="col">destanition city</th>
+        <th scope="col">Price per unit</th>
+        <th scope="col">datetime to move</th>
+        <th scope="col">quantity</th>
+        <th scope="col">Total Price</th>
+        <th scope="col">Remove</th>
+
+      </tr>
+    </thead>
+    <tbody>
+    {% for order in orders%}
+       
+      <tr >
+        <th scope="row"></th>
+        <td>{{ order.ticket.travel.driver_car }}</td>
+        <td>{{ order.ticket.travel.startcity }} </td>
+        <td>{{ order.ticket.travel.destanition }}</td>
+        <td>{{ order.ticket.travel.price }}</td>
+        <td>{{ order.ticket.travel.date_time.time }}---({{ order.ticket.travel.date_time.date|date:"D-d-m-Y" }})</td>
+        <td>{{ order.quantity }}</td>
+        <td>{{ order.get_cost }}</td>
+        <td><a href="{% url 'orders:order_delete' %}?order_id={{ order.id }}" class="btn btn-danger">Delete</a></td>
+      </tr>
+    {% endfor %} 
+
+    </tbody>
+</table>
+{% endblock %}
+

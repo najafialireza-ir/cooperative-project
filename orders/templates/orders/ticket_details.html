@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h4>Ticket Information</h4> <br>
+    {% for ticket in tickets %}
+        <h5>Startcity:  {{ ticket.travel.startcity }}</h5> <hr>
+        <h5>Destination City:  {{ ticket.travel.destanition }}</h5><hr>
+        <h5>Time: {{ ticket.travel.date_time.time }}</h5><hr>
+        <h5>Date: {{ ticket.travel.date_time.date }}</h5><hr>
+        <h5>DriverCar: {{ ticket.travel.driver_car }}</h5><hr>
+        <h5>Total capacity: {{ ticket.travel.driver_car.car.capacity }} ->
+            capacity remains: {{ ticket.get_capacity }}</h5><hr>
+        <h5>Price: {{ ticket.travel.price }}.toman</h5>
+
+     
+        <form action="{% url 'orders:add_order' ticket.id  %}" method="post" novalidate>
+            {% csrf_token %}
+            {{ order_form }} <br>
+            <input type="submit" value="add to cart" class="btn btn-success col-md-1">
+        </form>
+    {% endfor %}
+
+{% endblock %}

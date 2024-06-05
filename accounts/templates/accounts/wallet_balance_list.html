@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br>
+<a href="{% url 'accounts:add_amount' %}" class="btn" style=" color: black; background-color: #3FFF00;">request amount</a> 
+<a href="{% url 'accounts:user_transection' request.user.id  %}" class="btn btn-warning" style=" color: black; background-color: #3FFF00;">My Bill</a> <br><br>
+
+<!-- CSS -->
+<style>
+  .myTable { 
+    width: 100%;
+    text-align: left;
+    background-color: rgb(245, 243, 223);
+    border-collapse: collapse; 
+    }
+  .myTable th { 
+    background-color: rgb(248, 221, 155);
+    color: rgb(49, 47, 47); 
+    }
+  .myTable td, 
+  .myTable th { 
+    padding: 10px;
+    border: 1px solid goldenrod; 
+    }
+
+    body {
+    counter-reset: section;
+}
+
+table tbody tr th::before {
+    counter-increment: section;
+    content: "Section " counter(section);
+}
+
+table tbody tr th::before {
+    content: counter(section);
+}
+</style>
+
+
+<table class="myTable">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Balance</th>
+
+      </tr>
+    </thead>
+    <tbody>
+       
+      <tr >
+        <th scope="row">{{ table.counter }}</th>
+        <td>{{ wallet_detail.user }}</td>
+        <td>{{ wallet_detail.balance }}</td>
+      </tr>
+    </tbody>
+</table>
+
+{% endblock %}
