@@ -15,6 +15,3 @@ def return_paid_price(instance, sender, **kwargs):
         result = paid_price - deducted_amount
         wallet.deposite(result)
         wallet.save()
-        
-
-  
