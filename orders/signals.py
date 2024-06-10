@@ -3,6 +3,7 @@ from django.dispatch import receiver
 from .models import Order
 from management.models import BasePercent
 from wallet.models import Wallet, TransectionLog
+from travels.models import Ticket
 
 
 @receiver(pre_delete, sender=Order)
@@ -16,6 +17,10 @@ def return_paid_price(instance, sender, **kwargs):
         result = paid_price - deducted_amount
         wallet.deposite(result)
         wallet.save()
+        ticket = Ticket.objects.get(id=instance.ticket.id)
+        ticket.is_available = True
+        ticket.user = None
+        ticket.save()
         TransectionLog.objects.create(transection_type='2', wallet=wallet, amount=paid_price, log_ids=instance.id)      
         
     

@@ -5,6 +5,7 @@ from accounts.models import Driver
 class Car(models.Model):
     name = models.CharField(max_length=50)
     capacity = models.IntegerField()
+    license_plate = models.CharField(max_length=10, null=True)
     
     def __str__(self):
        return f'{self.name}'

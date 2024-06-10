@@ -13,3 +13,5 @@ class TravelRegisterDriverForm(forms.Form):
     startcity = forms.ModelChoiceField(queryset=City.objects.all())
     destanition = forms.ModelChoiceField(queryset=City.objects.all())
     date_time = forms.DateTimeField()
+    
+    

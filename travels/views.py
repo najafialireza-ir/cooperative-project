@@ -7,6 +7,12 @@ from django.contrib import messages
 from utils import IsAdmin
 from .forms import TravelForm, TravelRegisterDriverForm
 
+class TravelDetailUserView(View):
+    """ ticket detail show for normal user"""   
+    def get(self, request, *args, **kwargs):
+        tickets = Ticket.objects.filter(travel_id=kwargs['travel_id'])
+        return render(request, 'travels/ticket_list_user.html', {'tickets':tickets})
+    
  
 class DriverRegisterTravel(LoginRequiredMixin, View):
     travel_form = TravelRegisterDriverForm
@@ -42,7 +48,7 @@ class DriverRegisterTravel(LoginRequiredMixin, View):
 class TravelListView(IsAdmin, View):
     def get(self, request):
         travels = Travel.objects.all()
-        return render(request, 'travels/travel_list.html', {'travels':travels})
+        return render(request, 'travels/travel_list_admin.html', {'travels':travels})
                
 
 class ApproveTravelAdminView(IsAdmin, View):
@@ -84,8 +90,8 @@ class TravelRegisterView(IsAdmin, View):
         
 class TicketListAdminView(IsAdmin, View):
     def get(self, request, travel_id,*args, **kwargs):
-        tickets = Ticket.objects.filter(travel_id=travel_id) # not user & driver!
-        return render(request, 'travels/ticket_list.html', {'tickets':tickets})
+        tickets = Ticket.objects.filter(travel_id=travel_id) 
+        return render(request, 'travels/ticket_list_admin_panel.html', {'tickets':tickets})
 
 
 class TravelListTicketView(IsAdmin, View):

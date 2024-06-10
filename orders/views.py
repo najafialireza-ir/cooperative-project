@@ -1,23 +1,26 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from .models import Ticket, Order
+from .models import Order
 from .forms import AddOrderForm
 from accounts.models import User
 from wallet.models import TransectionLog, Wallet
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from travels.models import Travel
+from travels.models import Travel, Ticket
 
 
-class TravelDetailUserView(View):
-    """ ticket detail show for normal user"""   
+class TicketListUserView(View):
     form_class = AddOrderForm
     def get(self, request, *args, **kwargs):
         order_form = self.form_class
-        travels = Travel.objects.filter(id=kwargs['travel_id']) # error 
-        return render(request, 'orders/ticket_details.html', {'order_form':order_form, 'travels':travels})
+        tickets = Ticket.objects.filter(id=kwargs['ticket_id'])
+        ticket = tickets.get(id=kwargs['ticket_id'])
+        if ticket.is_available:
+            return render(request, 'orders/ticket_details_user.html', {'order_form':order_form, 'tickets':tickets})
+        messages.error(request, 'This Ticket not available!', 'danger')
+        return redirect('travels:ticket_detail', ticket.travel.id)
     
-    
+
 class AddOrderView(LoginRequiredMixin, View):
     form_class = AddOrderForm
 
@@ -25,9 +28,7 @@ class AddOrderView(LoginRequiredMixin, View):
         if request.user.is_authenticated:
             order_form = self.form_class(request.POST)
             user = get_object_or_404(User, pk=request.user.id)
-            # ticket =  get_object_or_404(Ticket, id=kwargs['travel_id']) # error
-            ticket =  Ticket.objects.get(travel_id=kwargs['travel_id']) # error
-            
+            ticket = Ticket.objects.get(id=kwargs['travel_id'])
             if order_form.is_valid():
                 cd = order_form.cleaned_data
                 if cd['quantity'] > ticket.travel.quantity:
@@ -47,14 +48,19 @@ class AddOrderView(LoginRequiredMixin, View):
                     add_cart.save()
                     TransectionLog.objects.create(transection_type='2', wallet=wallet, amount=(-product_price), log_ids=add_cart.id)
                     ticket.user = user
+                    ticket.is_available = False
                     ticket.save()
                     return redirect('orders:orders_detail', user.id)
                 else:
                     messages.error(request, 'Your Account balance is Not insufficient!', 'danger')
                     return redirect('wallet:add_amount')
             messages.error(request, 'You Must choice 1 item', 'danger')
-            
+        
         messages.error(request, 'You must login in web site', 'danger') 
+
+class OrderPayView(LoginRequiredMixin, View):
+    def get(self, request):
+        pass
 
        
 class OrderDetailView(View):

@@ -6,12 +6,19 @@
     <tr>
       <th scope="col">Username</th>
       <th scope="col">capacity</th>
+      <th scope="col">license_plate</th>
     </tr>
     <tbody>
+      {% for ticket in tickets %}
+      
       <tr>
-        <td></td>
-        <td></td>
+        {% if forloop.first %}                         
+        <td>{{ ticket.travel.driver_car }}</td>
+        <td>{{ ticket.travel.driver_car.car.capacity }}</td>
+        <td>{{ ticket.travel.driver_car.car.license_plate }}</td>
+        {% endif %}
       </tr>
+      {% endfor %}
     </tbody>
   </thead>
 

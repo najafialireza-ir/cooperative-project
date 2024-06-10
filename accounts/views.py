@@ -96,7 +96,7 @@ class UserLoginView(View):
             user = authenticate(request, email=cd['email'], password=cd['password'])
             if not user:
                 messages.error(request, 'UserName Password is Wrong!', 'danger')
-                return render(request, 'accounts/login.html', {'form':form})
+                return render(request, 'accounts/user/login.html', {'form':form})
             login(request, user)
             
             if user.user_type == '1': # user

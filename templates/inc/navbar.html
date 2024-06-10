@@ -1,31 +1,31 @@
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #3a9dde;box-shadow: 0px 13px 11px 1px #3498db;">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #3a9dde;box-shadow: 10px 6px 20px 11px #3498db;">
     <div class="container-fluid" style="width: 100%; ">
         <div class="container" style="display: flex; align-items: center; padding: 0; margin: 0; width: 100%; color: aliceblue; " > 
             {% if request.user.is_authenticated and user.is_superuser %}
-              <a class="navbar-brand" href="{% url 'management:admin_panel' %}">admin</a>
+              <a class="navbar-brand" href="{% url 'management:admin_panel' %}" style="color: white;">admin</a>
             {% elif request.user.is_authenticated and user.user_type == '2' %}
                 <a class="navbar-brand" href="{% url 'accounts:driver_travel' user.id %}">Driver panel</a>
             {% else %}
-              <a class="navbar-brand" href="{% url 'home:home' %}">Home</a>
+              <a class="navbar-brand" href="{% url 'home:home' %}" style="color: white;">Home</a>
             {% endif %}
 
             {% if request.user.is_authenticated %}
-              <a class="navbar-brand" href="{% url 'accounts:user_logout' %}">Logout</a>
+              <a class="navbar-brand" href="{% url 'accounts:user_logout' %}" style="color: white;">Logout</a>
             {% else %}
-              <a class="navbar-brand" href="{% url 'accounts:user_register' %}">Register</a>
-              <a class="navbar-brand" href="{% url 'accounts:user_login' %}">Login</a>
+              <a class="navbar-brand" href="{% url 'accounts:user_register' %}" style="color: white;">Register</a>
+              <a class="navbar-brand" href="{% url 'accounts:user_login' %}" style="color: white;">Login</a>
             {% endif %}
 
             {% if request.user.is_authenticated and user.user_type == '1' %}
-                <a class="navbar-brand" href="{% url 'accounts:driver_register' user.id %}">Drivers register</a>
-                <a class="navbar-brand" href="{% url 'orders:orders_detail' user.id %}">Cart</a>
+                <a class="navbar-brand" href="{% url 'accounts:driver_register' user.id %}" style="color: white;">Drivers register</a>
+                <a class="navbar-brand" href="{% url 'orders:orders_detail' user.id %}" style="color: white;">Cart</a>
             {% elif request.user.is_authenticated and user.user_type == '2' %}
-                <a class="navbar-brand" href="{% url 'accounts:driver_profile' user.id %}">Driver Profile</a>
+                <a class="navbar-brand" href="{% url 'accounts:driver_profile' user.id %}" style="color: white;">Driver Profile</a>
             {% endif %}
           </div>
             <div style="margin: 0; padding: 0;">
               {% if request.user.is_authenticated and user.user_type == '1' %}
-              <a class="navbar-brand" style="margin: 0; padding: 0;" href="{% url 'wallet:wallet_balance' %}" >Wallet/ {{ user.user_wallet.balance }}.Toman</a>
+              <a class="navbar-brand" style="margin: 0; padding: 0; color: white;" href="{% url 'wallet:wallet_balance' %}">Wallet/ {{ user.user_wallet.balance }}.Toman</a>
               {% endif %}
             </div>
           </div>

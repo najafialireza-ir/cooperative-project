@@ -44,15 +44,17 @@ class Travel(models.Model):
     
     @property
     def get_capacity(self):
-        user  = Ticket.objects.filter(user__isnull=False).count()
-        count = self.quantity - user
-        return count
+        user = Ticket.objects.filter(travel=self, user__isnull=False).count()
+        count_quantity = self.quantity - user
+        return count_quantity
+    
     
 class Ticket(models.Model):
     travel = models.ForeignKey(Travel, on_delete=models.CASCADE, related_name='travel_ticket')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='user_ticket')
     is_available = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now=True)
+    seat_number = models.PositiveIntegerField(null=True)
     
     def __str__(self) -> str:
         return f'{self.travel}'

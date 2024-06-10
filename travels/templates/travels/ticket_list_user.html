@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+
+{% block content %} <br>
+<div style="display: flex; gap: 16px; flex-wrap: wrap;">     
+
+    {% for ticket in tickets %}
+        {% if ticket.is_available %}
+        <div style="height: 100px; width: 350px; border-style: solid ;border-color: rgb(14 165 233); background-color: rgb(255, 255, 255); border-radius: 10px ; display: flex; justify-content: center; align-items: center; box-shadow: 20px 25px 11px -3px rgba(38, 91, 165, 0.1);">
+            <a href="{% url 'orders:ticket_lsit_user' ticket.id %}"
+            >{{ ticket }} </a> <br><br>
+        {% else %}
+        <div style="height: 100px; width: 350px; border-style: solid ;border-color: rgb(252, 30, 67); background-color: rgb(255, 255, 255); border-radius: 10px ; display: flex; justify-content: center; align-items: center; box-shadow: 20px 25px 11px -3px rgba(38, 91, 165, 0.1);">
+            <a href="{% url 'orders:ticket_lsit_user' ticket.id %}"
+            >{{ ticket }}</a> <br><br>
+        {% endif %}
+    </div>
+        
+    {% endfor %}
+</div>
+
+{% endblock %}

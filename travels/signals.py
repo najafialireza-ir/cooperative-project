@@ -7,6 +7,8 @@ from orders.models import Order
 @receiver(post_save, sender=Travel)
 def create_ticket(sender, instance, created, **kwargs):
     if instance.approved:
-        for _ in range(instance.quantity):
-            Ticket.objects.create(travel=instance)
+        for i in range(instance.quantity):
+            Ticket.objects.create(travel=instance, seat_number=i+1)
+           
+                
         
