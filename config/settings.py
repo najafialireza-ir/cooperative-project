@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'homep.apps.HomepConfig',
     'orders.apps.OrdersConfig',
+    'management.apps.ManagementConfig',
+    'travels.apps.TravelsConfig',
+    'wallet.apps.WalletConfig',
     
 ]
 

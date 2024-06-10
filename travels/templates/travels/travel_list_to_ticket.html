@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for travel in travels %}
+        <a href="{% url 'travels:ticket_list'  travel.id %}" class="btn btn-success">{{ travel }}</a> <br> <br>
+    {% endfor %}
+{% endblock %}

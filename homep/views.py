@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from orders.models import Ticket
+from travels.models import Travel
 
 
 class HomeView(View):
     def get(self, request):
-        ticket = Ticket.objects.all()
-        return render(request, 'homep/home.html', {'tickets':ticket})
+        travels = Travel.objects.all()
+        return render(request, 'homep/home.html', {'travels':travels})
         

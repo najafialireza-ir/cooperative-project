@@ -3,10 +3,10 @@
 {% block content %}
         <h3>Home</h3><br>
 <div style="display: flex; gap: 16px; flex-wrap: wrap;">     
-    {% for ticket in tickets %}
-    <div style="height: 100px; width: 350px; background-color: rgb(253, 225, 152); border-radius: 10px ; display: flex; justify-content: center; align-items: center; box-shadow: 0px 20px 15px -3px rgba(0,0,0,0.1);">
-        <a href="{% url 'orders:ticket_detail' ticket.id %}"
-        >{{ ticket.travel.startcity }}-{{ ticket.travel.destanition }} <br>{{ ticket.travel.date_time }}  </a> <br><br>
+    {% for travel in travels %}
+    <div style="height: 100px; width: 350px; border-style: solid ;border-color: rgb(14 165 233); background-color: rgb(255, 255, 255); border-radius: 10px ; display: flex; justify-content: center; align-items: center; box-shadow: 20px 25px 11px -3px rgba(38, 91, 165, 0.1);">
+        <a href="{% url 'orders:ticket_detail' travel.id %}"
+        >{{ travel.startcity }}-{{ travel.destanition }} <br>{{ travel.date_time }}  </a> <br><br>
     </div>
         
     {% endfor %}

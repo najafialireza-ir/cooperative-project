@@ -2,7 +2,7 @@
 
 {% block content %}
     <h4>Your Trips:</h4> <br>
-    <a href="{% url 'accounts:driver_register_travel' request.user.id %}" class="btn btn-dark">Register Trip</a>
+    <a href="{% url 'travels:driver_register_travel' request.user.user_driver.id %}" class="btn btn-dark">Register Trip</a>
     <hr>
     {% for travel in travels %}
         <h5>Startcity:  {{ travel.startcity }}</h5> <hr>

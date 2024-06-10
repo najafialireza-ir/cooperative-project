@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<table class="table table-bordered table-dark">
+  <thead>
+    <tr>
+      <th scope="col">Username</th>
+      <th scope="col">capacity</th>
+    </tr>
+    <tbody>
+      <tr>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </thead>
+
+</table>
+
+    
+<table class="table table-bordered table-dark">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th scope="col">Username</th>
+        <th scope="col">travel</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+        {% for ticket in tickets %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{ ticket.user }}</td>
+        <td>{{ ticket.travel }}</td>
+        
+      </tr>
+        {% endfor %}
+    </tbody>
+</table>
+    <br>
+{% endblock %}

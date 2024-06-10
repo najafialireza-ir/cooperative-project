@@ -22,5 +22,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('homep.urls', namespace='home')),
     path('accounts/', include('accounts.urls', namespace='accounts')),
-    path('orders/', include('orders.urls', namespace='orders'))
+    path('orders/', include('orders.urls', namespace='orders')),
+    path('management/', include('management.urls', namespace='management')),
+    path('travels/', include('travels.urls', namespace='travels')),
+    path('wallet/', include('wallet.urls', namespace='wallet')),
+    
 ]

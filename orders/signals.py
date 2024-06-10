@@ -1,7 +1,8 @@
 from django.db.models.signals import pre_delete, post_save
 from django.dispatch import receiver
 from .models import Order
-from accounts.models import Wallet, BasePercent
+from management.models import BasePercent
+from wallet.models import Wallet, TransectionLog
 
 
 @receiver(pre_delete, sender=Order)
@@ -15,3 +16,6 @@ def return_paid_price(instance, sender, **kwargs):
         result = paid_price - deducted_amount
         wallet.deposite(result)
         wallet.save()
+        TransectionLog.objects.create(transection_type='2', wallet=wallet, amount=paid_price, log_ids=instance.id)      
+        
+    

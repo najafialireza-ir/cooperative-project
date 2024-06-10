@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<a href="{% url 'management:base_price' %}" class="btn btn-info col-md-1">Register Base Price</a><br> <br>
+
+<table class="table table-bordered table-dark">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th scope="col">base price</th>
+        <th scope="col">date</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for price in prices %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{ price.price_per_km }}</td>
+        <td>{{ price.date_time }}</td>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+</table>   
+    
+
+{% endblock %}

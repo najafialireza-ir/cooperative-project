@@ -1,8 +1,8 @@
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: rgb(252, 249, 196);box-shadow: 0px 13px 11px 1px rgb(252, 249, 192);">
-    <div class="container-fluid" style="width: 100%;">
-        <div class="container" style="display: flex; align-items: center;  padding: 0; margin: 0; width: 100%;" > 
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #3a9dde;box-shadow: 0px 13px 11px 1px #3498db;">
+    <div class="container-fluid" style="width: 100%; ">
+        <div class="container" style="display: flex; align-items: center; padding: 0; margin: 0; width: 100%; color: aliceblue; " > 
             {% if request.user.is_authenticated and user.is_superuser %}
-              <a class="navbar-brand" href="{% url 'accounts:admin_panel' %}">admin</a>
+              <a class="navbar-brand" href="{% url 'management:admin_panel' %}">admin</a>
             {% elif request.user.is_authenticated and user.user_type == '2' %}
                 <a class="navbar-brand" href="{% url 'accounts:driver_travel' user.id %}">Driver panel</a>
             {% else %}
@@ -25,7 +25,7 @@
           </div>
             <div style="margin: 0; padding: 0;">
               {% if request.user.is_authenticated and user.user_type == '1' %}
-              <a class="navbar-brand" style="margin: 0; padding: 0;" href="{% url 'accounts:wallet_balance' %}" >Wallet/ {{ user.user_wallet.balance }}.Toman</a>
+              <a class="navbar-brand" style="margin: 0; padding: 0;" href="{% url 'wallet:wallet_balance' %}" >Wallet/ {{ user.user_wallet.balance }}.Toman</a>
               {% endif %}
             </div>
           </div>

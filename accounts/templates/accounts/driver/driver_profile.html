@@ -4,8 +4,8 @@
 {% block content %}
     <h5>Your Information:</h5> <br>
     {% for driver in drivers%}
-        <h5>Your Name: {{ driver.driver.user}}</h5>
+        <h5>Your Name: {{ driver.driver.user.username }}</h5>
         <h5>Your Car: {{ driver.car }}</h5>
-        <h5>Your City: {{ driver.driver.city }}</h5>
+        <h5>Your Email: {{ driver.driver.user.email }}</h5>
     {% endfor %}
 {% endblock %}

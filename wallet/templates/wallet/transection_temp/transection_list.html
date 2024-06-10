@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="{% url 'wallet:transection_list' %}" class="btn btn-info">All</a>
+<a href="{% url 'wallet:transection_list' %}?filter_by={{ True }} " class="btn btn-info">True List</a>
+<a href="{% url 'wallet:transection_list' %}?filter_by={{ False }} " class="btn btn-info">False List</a> <br> <br>
+
+<table class="table table-bordered table-dark">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Request Situation</th>
+        <th scope="col">Accept or Decline</th>
+        <th scope="col">Delete</th>
+        <th scope="col">created</th>
+
+      </tr>
+    </thead>
+    <tbody>
+       {% for transection in transection_list %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{ transection.wallet.user.username }}</td>
+        <td>{{ transection.amount }}</td>
+        <td> {{ transection.is_accept }}</td>
+        <td> {% if transection.is_accept %}
+            <a href="{% url 'wallet:transection_request' transection.id %}" class="btn btn-warning">False</a></td>
+            {% else %}
+            <a href="{% url 'wallet:transection_request' transection.id %}" class="btn btn-warning">True</a></td>
+            {% endif %}
+        <td> </td>
+        <td>{{ transection.created }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
