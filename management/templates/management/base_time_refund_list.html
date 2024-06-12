@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br>
+<a href="{% url 'management:base_time_refund' %}" class="btn btn-success">Add New Time Refund</a> <br><br>
+
+<table class="table table-bordered table-dark">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th scope="col">Base Time</th>
+        <th scope="col">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for item in time_refund %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{ item.base_time }}</td>
+        <td>{{ item.created }}</td>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+</table>   
+{% endblock %}

@@ -47,3 +47,7 @@ class BasePriceForm(forms.Form):
 
 class BasePercentForm(forms.Form):
     base_percent = forms.IntegerField()  
+
+
+class BaseTimeRefundForm(forms.Form):
+    base_time_refund = forms.IntegerField()

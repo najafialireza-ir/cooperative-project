@@ -45,4 +45,5 @@ class UserLoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
     
 
-
+class BaseTimeRefundForm(forms.Form):
+    base_time_refund = forms.IntegerField()

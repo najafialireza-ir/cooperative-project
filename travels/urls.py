@@ -13,5 +13,4 @@ urlpatterns = [
     path('travel/list/ticket/', views.TravelListTicketView.as_view(), name='travel_list_admin'),
     path('ticket/info/<int:travel_id>/', views.TravelDetailUserView.as_view(), name='ticket_detail'),
     
-    
 ]

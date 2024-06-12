@@ -16,6 +16,9 @@ urlpatterns = [
     path('delete/city/', views.DeleteCityView.as_view(), name='delete_city'),
     path('driver/delete/', views.DeleteDriverView.as_view(), name='driver_delete'),
     path('submit/basepercent/', views.BasePercentView.as_view(), name='base_percent'),
+    path('base/refund/', views.BaseTimeRefundView.as_view(), name='base_time_refund'),
+    path('base/time/refund/list', views.BaseTimeRefundList.as_view(), name='base_time_refund_list'),
+    path('base/percent/list/', views.BasePercentListView.as_view(), name='base_percent_list'),
     
     
 ]

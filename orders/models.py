@@ -5,6 +5,7 @@ from travels.models import Ticket
 from .manager import SoftDeleteManager
 from django.db.models.signals import pre_delete
 
+
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='order_user')
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
@@ -30,8 +31,15 @@ class Order(models.Model):
     def get_cost(self):
         return self.ticket.travel.price * self.quantity
 
+
     @property
     def get_total_cost_for_user(self):
         orders = Order.objects.filter(user=self.user)
         total_cost = sum(order.get_cost for order in orders)
         return total_cost
+    
+    
+class PurchasedOrder(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='purchased_user')
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='purchased_order')
+    created = models.DateTimeField(auto_now=True)

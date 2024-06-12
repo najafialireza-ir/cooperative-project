@@ -18,7 +18,7 @@
 
             {% if request.user.is_authenticated and user.user_type == '1' %}
                 <a class="navbar-brand" href="{% url 'accounts:driver_register' user.id %}" style="color: white;">Drivers register</a>
-                <a class="navbar-brand" href="{% url 'orders:orders_detail' user.id %}" style="color: white;">Cart</a>
+                <a class="navbar-brand" href="{% url 'orders:cart_list' user.id %}" style="color: white;">Cart</a>
             {% elif request.user.is_authenticated and user.user_type == '2' %}
                 <a class="navbar-brand" href="{% url 'accounts:driver_profile' user.id %}" style="color: white;">Driver Profile</a>
             {% endif %}

@@ -2,23 +2,74 @@
 
 {% block content %}
     <h4>Ticket Information</h4> <br>
-    {% for ticket in tickets %}
+    <style>
+        .myTable { 
+          width: 100%;
+          text-align: left;
+          background-color: rgb(245, 243, 223);
+          border-collapse: collapse; 
+          }
+        .myTable th { 
+          background-color: rgb(248, 221, 155);
+          color: rgb(49, 47, 47); 
+          }
+        .myTable td, 
+        .myTable th { 
+          padding: 10px;
+          border: 1px solid rgb(218, 165, 32); 
+          }
+      
+          body {
+          counter-reset: section;
+      }
+      
+      table tbody tr th::before {
+          counter-increment: section;
+          content: "Section " counter(section);
+      }
+      
+      table tbody tr th::before {
+          content: counter(section);
+      }
+    </style>
     
-        <h5>Startcity:  {{ ticket.travel.startcity }}</h5> <hr>
-        <h5>Destination City:  {{ ticket.travel.destanition }}</h5><hr>
-        <h5>Time: {{ ticket.travel.date_time.time }}</h5><hr>
-        <h5>Date: {{ticket.travel.date_time.date }}</h5><hr>
-        <h5>DriverCar: {{ ticket.travel.driver_car }}</h5><hr>
+<table class="myTable">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th scope="col">Startcity</th>
+            <th scope="col">Destination City</th>
+            <th scope="col">seat_number</th>
+            <th scope="col">Time</th>
+            <th scope="col">Date</th>
+            <th scope="col">DriverCar</th>
+            <th scope="col">capacity</th>
+            <th scope="col">Price</th>
+            <th scope="col">Availe</th>
+            <th scope="col">ramind capacity</th>
+        </tr>
+    </thead>
+    <tbody>
 
-        <h5>capacity: {{ ticket.travel.quantity }} </h5><hr>
-        <h5>Price: {{ ticket.travel.price }}.toman</h5><hr>
-        <h5>Availe: {{ ticket.is_available }}</h5><hr>
-        <h5>seat_number: {{ ticket.seat_number }}</h5><hr>
+    {% for ticket in tickets %}
+        <tr>
+          <th scope="row"></th>
 
-        <h4>ramind capacity: {{ ticket.travel.get_capacity }}</h4> <br> <hr>
-        
+        <td>{{ ticket.travel.startcity }}</td> 
+        <td>{{ ticket.travel.destanition }}</td>
+        <td>{{ ticket.seat_number }}</td>
+        <td>{{ ticket.travel.date_time.time }}</td>
+        <td>{{ticket.travel.date_time.date }}</td>
+        <td>{{ ticket.travel.driver_car }}</td>
+        <td>{{ ticket.travel.quantity }} </td>
+        <td>{{ ticket.travel.price }}.toman</td>
+        <td>{{ ticket.is_available }}</td>
+        <td>{{ ticket.travel.get_capacity }}</td>
+    </tr>
+    </tbody>
+</table> <br>
         {% if ticket.is_available %}
-            <form action="{% url 'orders:add_order' ticket.id %}" method="post">
+            <form action="{% url 'orders:add_order' ticket.id %}" method="post" novalidate>
                 {% csrf_token %}
                 {{ order_form }} <br>
                 <input type="submit" value="add to cart" class="btn btn-success col-md-1">
@@ -28,4 +79,13 @@
         {% endif %}
     {% endfor %}
 
+<h6 style="display: flex; justify-content: end; align-items: center;">شرایط استرداد: در صورت استرداد بعد از یکساعت ۲۰درصد از مبلغ بلیط کسرخواهد شد</h6>
 {% endblock %}
+
+
+
+  
+       
+   
+  
+  

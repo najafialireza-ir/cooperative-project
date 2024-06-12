@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <form action="" method="post">
+    <form action="" method="post" style="color: white;">
     {% csrf_token %}
     {{ city_form.as_p }}
     <input type="submit" class="btn btn-success">

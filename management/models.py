@@ -5,8 +5,7 @@ from accounts.models import Driver
 class Car(models.Model):
     name = models.CharField(max_length=50)
     capacity = models.IntegerField()
-    license_plate = models.CharField(max_length=10, null=True)
-    
+   
     def __str__(self):
        return f'{self.name}'
    
@@ -43,3 +42,9 @@ class BaseTime(models.Model):
     
 class BasePercent(models.Model):
     base_percent = models.IntegerField()
+    created = models.DateTimeField(auto_now=True)
+    
+    
+class BaseTimeRefund(models.Model):
+    base_time = models.PositiveIntegerField()
+    created = models.DateTimeField(auto_now=True)

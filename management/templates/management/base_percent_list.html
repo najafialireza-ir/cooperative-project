@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br>
+<a href="{% url 'management:base_percent' %}" class="btn btn-success">Add New Percent</a> <br><br>
+
+<table class="table table-bordered table-dark">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th scope="col">Base Percent</th>
+        <th scope="col">date</th>
+      
+      </tr>
+    </thead>
+    <tbody>
+    {% for item in percent_list %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>%{{ item.base_percent }}</td>
+        <td>{{ item.created}}</td>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+</table>   
+{% endblock %}

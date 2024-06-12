@@ -41,17 +41,20 @@ class TransectionRequestListView(IsAdmin, View):
         return redirect('wallet:transection_list')
 
    
-class TransecitonListView(IsAdmin, View):
+class TransecitonListView(IsAdmin, View): # question
     def get(self, request):
-        param = request.GET.get('filter_by')
-        if param == 'True':
-            transection_list = TransectionRequest.objects.filter(is_accept=param).order_by('-created')
-            return render(request, 'wallet/transection_temp/transection_list.html', {'transection_list':transection_list})
-        elif param == 'False':
-            transection_list = TransectionRequest.objects.filter(is_accept=param).order_by('-created')
-            return render(request, 'wallet/transection_temp/transection_list.html', {'transection_list':transection_list})
-        
         transection_list = TransectionRequest.objects.all().order_by('-created')
+        try:
+            param = request.GET.get('filter_by')
+            if param == 'True':
+                transection_list = transection_list.filter(is_accept=param).order_by('-created')
+                return render(request, 'wallet/transection_temp/transection_list.html', {'transection_list':transection_list})
+            elif param == 'False':
+                transection_list = transection_list.filter(is_accept=param).order_by('-created')
+                return render(request, 'wallet/transection_temp/transection_list.html', {'transection_list':transection_list})
+        except:
+            pass
+            
         return render(request, 'wallet/transection_temp/transection_list.html', {'transection_list':transection_list})
 
 
@@ -61,4 +64,3 @@ class TransectionLogListView(LoginRequiredMixin, View):
         return render(request, 'wallet/transection_log/transection_log_list.html', {'get_transection':get_transection})
        
        
- 

@@ -1,21 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<br>
 <table class="table table-bordered table-dark">
   <thead>
     <tr>
       <th scope="col">Username</th>
       <th scope="col">capacity</th>
-      <th scope="col">license_plate</th>
-    </tr>
+    </tr> 
     <tbody>
       {% for ticket in tickets %}
       
       <tr>
         {% if forloop.first %}                         
         <td>{{ ticket.travel.driver_car }}</td>
-        <td>{{ ticket.travel.driver_car.car.capacity }}</td>
-        <td>{{ ticket.travel.driver_car.car.license_plate }}</td>
+        <td>{{ ticket.travel.get_capacity }}</td>
         {% endif %}
       </tr>
       {% endfor %}

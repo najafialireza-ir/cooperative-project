@@ -1,8 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from utils import IsAdmin
-from .forms import CityForm, BasePriceForm, BaseTimeForm, CarRegisterForm, DriverUser, DriverRegisterForm, BasePercentForm
-from .models import City, DriverCar, Driver, Car, BaseTime, BasePrice, BasePercent
+from .forms import (
+    CityForm, 
+    BasePriceForm, 
+    BaseTimeForm, 
+    CarRegisterForm, 
+    DriverUser, 
+    DriverRegisterForm, 
+    BasePercentForm, 
+    BaseTimeRefundForm,
+)
+from .models import City, DriverCar, Driver, Car, BaseTime, BasePrice, BasePercent, BaseTimeRefund
 from travels.models import Travel
 from django.contrib import messages
 
@@ -134,7 +143,10 @@ class BasePercentView(IsAdmin, View):
             return redirect('management:admin_panel')
         return render(request, 'management/base_percent_form.html', {'percent_form':percent_form})
  
- 
+class BasePercentListView(IsAdmin, View):
+    def get(self, request):
+        percent_list = BasePercent.objects.all().order_by('-created')
+        return render(request, 'management/base_percent_list.html', {'percent_list':percent_list})
 
         
 class DeleteCityView(IsAdmin, View):
@@ -161,4 +173,26 @@ class DeleteDriverView(IsAdmin, View):
             Driver.objects.filter(id__in=driver_ids).delete()
             messages.success(request, 'Driver deleted')
             return redirect('management:driver_detail')
+     
         
+class BaseTimeRefundView(IsAdmin, View):
+    form_class = BaseTimeRefundForm
+    def get(self, request):
+        form = self.form_class
+        return render(request, 'management/base_time_refund.html', {'form':form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            BaseTimeRefund.objects.create(base_time=cd['base_time_refund'])   
+            messages.success(request, 'Base Time for deduction of refund.', 'success') 
+            return redirect('management:base_time_refund_list')   
+        messages.error(request, 'You must complete this form', 'danger')
+        return render(request, 'management/base_time_refund.html', {'form':form})
+   
+    
+class BaseTimeRefundList(IsAdmin, View):
+    def get(self, request):
+        time_refund = BaseTimeRefund.objects.all().order_by('-created')
+        return render(request, 'management/base_time_refund_list.html', {'time_refund':time_refund})

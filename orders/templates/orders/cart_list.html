@@ -37,6 +37,11 @@ table tbody tr th::before {
 </style>
 
 <h4>Your Orders:</h4> <br>
+
+<div style="display: flex; justify-content: end; text-align: center;">
+  <a href="{% url 'orders:purchased_list' request.user.id %}" class="btn btn-success" >MyOrderPurchased</a>
+</div><br>
+
 <table class="myTable">
     <thead>
       <tr>
@@ -44,10 +49,9 @@ table tbody tr th::before {
         <th scope="col">driver and car</th>
         <th scope="col">startcity</th>
         <th scope="col">destanition city</th>
+        <th scope="col">seat_number</th>
         <th scope="col">Price per unit</th>
         <th scope="col">datetime to move</th>
-        <th scope="col">quantity</th>
-        <th scope="col">Total Price</th>
         <th scope="col">Remove</th>
 
       </tr>
@@ -60,18 +64,23 @@ table tbody tr th::before {
         <td>{{ order.ticket.travel.driver_car }}</td>
         <td>{{ order.ticket.travel.startcity }} </td>
         <td>{{ order.ticket.travel.destanition }}</td>
+        <td>{{ order.ticket.seat_number }}</td>
         <td>{{ order.ticket.travel.price }}</td>
         <td>{{ order.ticket.travel.date_time.time }}---({{ order.ticket.travel.date_time.date|date:"D-d-m-Y" }})</td>
-        <td>{{ order.get_cost }}</td>
-        <td>{{ order.quantity }}</td>
+        
         <td><a href="{% url 'orders:order_delete' %}?order_id={{ order.id }}" class="btn btn-danger">Delete</a></td>
       </tr>
-      {% if forloop.last %}  
-      <td><h5>Total cost:{{ order.get_total_cost_for_user }}</h5></td>
-      {% endif %}
     {% endfor %} 
-
+    <tr>
+      <td><h5>Total_cost: {{total_cost}}.Toman</h5></td>
+    </tr>
     </tbody>
-</table>
+   
+</table><br>
+  {% if total_cost > 0 %}
+  <a href="{% url 'orders:order_pay' request.user.id %}" class="btn btn-success col-md-1">Pay</a> 
+  {% else %}
+    <h6>0</h6>
+  {% endif %}
 {% endblock %}
 
