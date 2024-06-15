@@ -34,7 +34,7 @@ class City(models.Model):
 
 class BasePrice(models.Model):
     price_per_km = models.IntegerField()
-    date_time = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now=True)
     
 class BaseTime(models.Model):
     base_time = models.IntegerField()
@@ -44,6 +44,8 @@ class BasePercent(models.Model):
     base_percent = models.IntegerField()
     created = models.DateTimeField(auto_now=True)
     
+    def __str__(self):
+        return str(self.base_percent)
     
 class BaseTimeRefund(models.Model):
     base_time = models.PositiveIntegerField()

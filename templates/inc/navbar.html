@@ -4,7 +4,7 @@
             {% if request.user.is_authenticated and user.is_superuser %}
               <a class="navbar-brand" href="{% url 'management:admin_panel' %}" style="color: white;">admin</a>
             {% elif request.user.is_authenticated and user.user_type == '2' %}
-                <a class="navbar-brand" href="{% url 'accounts:driver_travel' user.id %}">Driver panel</a>
+                <a class="navbar-brand" href="{% url 'accounts:driver_travel' user.id %}" style="color: white;">Driver panel</a>
             {% else %}
               <a class="navbar-brand" href="{% url 'home:home' %}" style="color: white;">Home</a>
             {% endif %}

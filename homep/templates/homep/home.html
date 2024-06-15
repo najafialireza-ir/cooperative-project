@@ -2,6 +2,10 @@
 
 {% block content %}
         <h3>Home</h3><br>
+        <a href="{% url 'home:home' %}" class="btn btn-success">All</a>
+        <a href="{% url 'home:home' %}?filter_by={{ 'bus' }}" class="btn btn-success">Bus</a>
+        <a href="{% url 'home:home' %}?filter_by={{ 'van' }}" class="btn btn-success">Van</a> <br><br>
+        
 <div style="display: flex; gap: 16px; flex-wrap: wrap;">     
     {% for travel in travels %}
     <div style="height: 100px; width: 350px; border-style: solid ;border-color: rgb(14 165 233); background-color: rgb(255, 255, 255); border-radius: 10px ; display: flex; justify-content: center; align-items: center; box-shadow: 20px 25px 11px -3px rgba(38, 91, 165, 0.1);">

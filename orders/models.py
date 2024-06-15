@@ -16,6 +16,8 @@ class Order(models.Model):
     updated = models.DateTimeField(auto_now=True)
     is_deleted = models.BooleanField(default=False ,null=True, blank=True)
     
+    # first objects - filters applied to object
+    # second - all models without filter 
     objects = SoftDeleteManager()  # Custom manager for non-deleted objects
     all_objects = models.Manager()  # Default manager to access all objects, including soft-deleted ones
     
@@ -43,3 +45,4 @@ class PurchasedOrder(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='purchased_user')
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='purchased_order')
     created = models.DateTimeField(auto_now=True)
+    

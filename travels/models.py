@@ -30,6 +30,7 @@ class Travel(models.Model):
         result = hs.haversine(loc1,loc2, unit=Unit.KILOMETERS)
         return int(result)
     
+    
     @property
     def get_cost(self):
         base_price = BasePrice.objects.all().last()
@@ -56,7 +57,7 @@ class Ticket(models.Model):
     created = models.DateTimeField(auto_now=True)
     seat_number = models.PositiveIntegerField(null=True)
     
-    def __str__(self) -> str:
+    def __str__(self):
         return f'{self.travel}'
     
     

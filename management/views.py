@@ -94,7 +94,7 @@ class CarListView(IsAdmin, View):
 
 class BasePriceList(IsAdmin, View):
     def get(self, request):
-        prices = BasePrice.objects.all()
+        prices = BasePrice.objects.all().order_by('-created')
         return render(request, 'management/price_list.html', {'prices':prices})
     
 
@@ -142,6 +142,7 @@ class BasePercentView(IsAdmin, View):
             messages.success(request, 'base percent successfully!', 'success')
             return redirect('management:admin_panel')
         return render(request, 'management/base_percent_form.html', {'percent_form':percent_form})
+ 
  
 class BasePercentListView(IsAdmin, View):
     def get(self, request):

@@ -17,32 +17,38 @@ class TravelDetailUserView(View):
 class DriverRegisterTravel(LoginRequiredMixin, View):
     travel_form = TravelRegisterDriverForm
     def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated and request.user.user_type == '2':
+        if request.user.user_type == '2':
             travel_form = self.travel_form
             return render(request, 'travels/driver_register_travel.html', {'travel_form':travel_form})
                  
     def post(self, request, *args, **kwargs):
-        if request.user.is_authenticated and request.user.user_type == '2':
+        if request.user.user_type == '2':
             travel_form = self.travel_form(request.POST)
             if travel_form.is_valid():
-                cd = travel_form.cleaned_data
-                # user = get_object_or_404(DriverCar, driver_id=kwargs['driver_id'])
-            
-                user = DriverCar.objects.get(driver_id=kwargs['user_id'])
-                travel = Travel(driver_car=user, startcity=cd['startcity'],
+                cd = travel_form.cleaned_data            
+                driver = DriverCar.objects.get(driver__user_id=request.user.id)
+                travel = Travel(driver_car=driver, startcity=cd['startcity'],
                                       destanition=cd['destanition'], date_time=cd['date_time'])
-                travel.end_time = travel.get_time
-                travel.price = travel.get_cost
-                travel.quantity = travel.driver_car.car.capacity
-                is_travel_exists = Travel.objects.filter(driver_car=travel.driver_car, 
-                                                         date_time__range=[travel.date_time, travel.end_time ]).exists()
-                if is_travel_exists:
-                    messages.error(request, 'driver this time is on travel.', 'danger')
-                    return render(request, 'travels/raise_error_trip_driver.html', {'travel':travel})
-                travel.save()
-                messages.success(request, 'Please Wait admin to accept Your`s travel', 'warning')
-                return redirect('accounts:driver_travel', user.id)
+                if travel.get_distance != 0:
+                    travel.end_time = travel.get_time
+                    travel.price = travel.get_cost
+                    travel.quantity = travel.driver_car.car.capacity
+                    is_travel_exists = Travel.objects.filter(driver_car=travel.driver_car, 
+                                                            date_time__range=[travel.date_time, travel.end_time ]).exists()
+                    if is_travel_exists:
+                        messages.error(request, 'driver this time is on travel.', 'danger')
+                        return render(request, 'travels/raise_error_trip_driver.html', {'travel':travel})
+                    travel.save()
+                    messages.success(request, 'Please Wait admin to accept Your`s travel', 'warning')
+                    return redirect('accounts:driver_travel', driver.id)
+                
+                messages.error(request, 'startcity and destination can`t the same!', 'danger')
+                return render(request, 'travels/driver_register_travel.html', {'travel_form':travel_form})
+                
+            messages.error(request, 'you must complete this form!', 'danger')
+            return render(request, 'travels/driver_register_travel.html', {'travel_form':travel_form})
         messages.error(request, 'You don`t access this page.', 'danger')
+        return redirect('home:home')
 
 
 class TravelListView(IsAdmin, View):
@@ -73,18 +79,23 @@ class TravelRegisterView(IsAdmin, View):
             cd = travel_form.cleaned_data
             travel = Travel(driver_car=cd['driver_car'], startcity=cd['startcity'],
                                       destanition=cd['destanition'], date_time=cd['date_time'])
-            travel.end_time = travel.get_time
-            travel.price = travel.get_cost
-            travel.quantity = travel.driver_car.car.capacity
-            is_travel_exists = Travel.objects.filter(driver_car=travel.driver_car, 
-                                                         date_time__range=[travel.date_time, travel.end_time ]).exists()
-            if is_travel_exists:
-                messages.error(request, 'driver this time is on travel.', 'danger')
-                return render(request, 'travels/raise_error_trip_driver.html', {'travel':travel})
-            travel.approved = True
-            travel.save()
-            messages.success(request, 'New Travel And Ticket Created', 'success')
-            return redirect('travels:travel_detail')
+            if travel.get_distance != 0:
+                travel.end_time = travel.get_time
+                travel.price = travel.get_cost
+                travel.quantity = travel.driver_car.car.capacity
+                is_travel_exists = Travel.objects.filter(driver_car=travel.driver_car, 
+                                                            date_time__range=[travel.date_time, travel.end_time ]).exists()
+                if is_travel_exists:
+                    messages.error(request, 'driver this time is on travel.', 'danger')
+                    return render(request, 'travels/raise_error_trip_driver.html', {'travel':travel})
+                travel.approved = True
+                travel.save()
+                messages.success(request, 'New Travel And Ticket Created', 'success')
+                return redirect('travels:travel_detail')
+            messages.error(request, 'startcity and destination can`t the same!!', 'danger')
+            return render(request, 'travels/travel_admin.html', {'travel_form':travel_form})
+        
+        messages.error(request, 'you must complete this form!', 'danger')
         return render(request, 'travels/travel_admin.html', {'travel_form':travel_form})
         
         

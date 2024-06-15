@@ -120,17 +120,17 @@ class UserLogoutView(LoginRequiredMixin, View):
         return redirect('home:home')
     
    
-class DriverProfileView(View):
+class DriverProfileView(LoginRequiredMixin, View):
     def get(self, request, driver_id):
-        if request.user.is_authenticated and request.user.user_type == '2':
+        if request.user.user_type == '2':
             drivers = DriverCar.objects.filter(driver__user=driver_id)
             return render(request, 'accounts/driver/driver_profile.html', {'drivers': drivers})  
         
         
-class TravelDriverInfo(View):
-    def get(self, request, user_id):
-        if request.user.is_authenticated and request.user.user_type == '2':
-            travels =  Travel.objects.filter(driver_car__driver__user=user_id)
+class TravelDriverInfo(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        if request.user.user_type == '2':
+            travels =  Travel.objects.filter(driver_car__driver__user=request.user).order_by('-date_time')
             return render(request, 'accounts/driver/driver_travel_info.html', {'travels':travels})
  
 

@@ -7,16 +7,17 @@ from wallet.models import TransectionLog, Wallet
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from travels.models import Travel, Ticket
-
+from management.models import BasePercent
 
 class TicketListUserView(View):
     form_class = AddOrderForm
     def get(self, request, *args, **kwargs):
         order_form = self.form_class
+        base_percent = BasePercent.objects.all().last()
         tickets = Ticket.objects.filter(id=kwargs['ticket_id'])
         ticket = tickets.get(id=kwargs['ticket_id'])
         if ticket.is_available:
-            return render(request, 'orders/ticket_details_user.html', {'order_form':order_form, 'tickets':tickets})
+            return render(request, 'orders/ticket_details_user.html', {'order_form':order_form, 'tickets':tickets, 'base_percent':base_percent})
         messages.error(request, 'This Ticket not available!', 'danger')
         return redirect('travels:ticket_detail', ticket.travel.id)
     
@@ -50,10 +51,10 @@ class AddOrderView(LoginRequiredMixin, View):
 class OrderPayView(LoginRequiredMixin, View):
     def get(self, request, user_id, *args, **kwargs):
         orders = Order.objects.filter(user=user_id)
+        wallet = Wallet.objects.get(user=user_id)
         
         for order in orders:
-            product_price = order.get_total_cost_for_user
-            wallet = Wallet.objects.get(user=user_id)
+            product_price = order.get_cost
             check_credit = wallet.check_credit(product_price)
             if check_credit:
                 wallet.withdraw(product_price)
@@ -62,16 +63,14 @@ class OrderPayView(LoginRequiredMixin, View):
                 PurchasedOrder.objects.create(user_id=user_id, order=order)
                 TransectionLog.objects.create(transection_type='2', wallet=wallet, 
                                             amount=(-product_price), log_ids=order.id)
-                messages.success(request, 'Successfully paid', 'success')
-                return redirect('orders:cart_list', order.user.id)
-            
-            messages.error(request, 'Your Account balance is Not insufficient!', 'danger')
-            return redirect('wallet:add_amount')
-        order.delete() 
+                order.delete()
+            else:
+                messages.error(request, 'Your Account balance is Not insufficient!', 'danger')
+                return redirect('wallet:add_amount')
+        
+        messages.success(request, 'Successfully paid', 'success')
+        return redirect('orders:cart_list', order.user.id)
     
-        messages.error(request, 'Already paid this order!', 'danger')
-        return redirect('orders:cart_list', order.user.id)   
-
 
 class CartListView(View):
     def get(self, request, user_id):
