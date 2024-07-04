@@ -22,6 +22,7 @@ class User(AbstractUser):
     
     def has_module_perms(self, app_label):
         return True
+    
      
 class Driver(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_driver')

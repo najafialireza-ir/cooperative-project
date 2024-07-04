@@ -9,8 +9,8 @@
 <div style="display: flex; gap: 16px; flex-wrap: wrap;">     
     {% for travel in travels %}
     <div style="height: 100px; width: 350px; border-style: solid ;border-color: rgb(14 165 233); background-color: rgb(255, 255, 255); border-radius: 10px ; display: flex; justify-content: center; align-items: center; box-shadow: 20px 25px 11px -3px rgba(38, 91, 165, 0.1);">
-        <a href="{% url 'travels:ticket_detail' travel.id %}"
-        >{{ travel.startcity }}-{{ travel.destanition }} <br>{{ travel.date_time }}  </a> <br><br>
+        <a href="{% url 'travels:ticket_detail' travel.id %}" style="color: black;"
+        >{{ travel.startcity }}-{{ travel.destanition }} <br>{{ travel.get_jalali_start_time }}  </a> <br><br>
     </div>
         
     {% endfor %}

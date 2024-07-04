@@ -2,6 +2,8 @@ from django import forms
 from .models import User
 from management.models import Car, City
 from django.core.exceptions import ValidationError
+from jalali_date.fields import JalaliDateField
+from jalali_date.widgets import AdminJalaliDateWidget
 
 
 class UserRegisterForm(forms.ModelForm):
@@ -37,7 +39,9 @@ class UserRegisterForm(forms.ModelForm):
     
 class DriverRegisterForm(forms.Form):
     car = forms.ModelChoiceField(queryset=Car.objects.all())
-    car_production_date = forms.DateField()
+    car_production_date = JalaliDateField(widget=AdminJalaliDateWidget)
+    
+    
          
     
 class UserLoginForm(forms.Form):
@@ -45,5 +49,3 @@ class UserLoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
     
 
-class BaseTimeRefundForm(forms.Form):
-    base_time_refund = forms.IntegerField()

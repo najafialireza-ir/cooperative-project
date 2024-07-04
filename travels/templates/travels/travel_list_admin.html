@@ -13,7 +13,6 @@
         <th scope="col">distance</th>
         <th scope="col">start-time</th>
         <th scope="col">end-time</th>
-        <th scope="col">date</th>
         <th scope="col">Approve</th>
         <th scope="col">Remove</th>
       </tr>
@@ -28,11 +27,10 @@
         <td>{{ travel.destanition }}</td>
         <td>{{ travel.get_cost }}</td>
         <td>{{ travel.get_distance }}.Km</td>
-        <td>{{ travel.date_time.time }}</td>
+        <td>{{ travel.get_jalali_start_time }}</td>
 
-        <td>{{ travel.end_time.time }} Date: {{ travel.end_time.date|date:"D-d-m-Y" }}</td>
+        <td>{{ travel.get_jalali_end_time }}</td>
 
-        <td>{{ travel.date_time.date }}</td>
         {% if travel.approved == False %}
           <td><a href="{% url 'travels:approve_travel' travel.id %}" class="btn btn-success">Accept</a></td>
         {% else %}

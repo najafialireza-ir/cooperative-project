@@ -31,8 +31,7 @@
         <th scope="col">Order</th>
         <th scope="col">OrderQuantity</th>
         <th scope="col">Is_accepted</th>
-        <th scope="col">Request_Date</th>
-        <th scope="col">Accept_Date</th>
+        <th scope="col">Date</th>
 
       </tr>
     </thead>
@@ -50,8 +49,7 @@
             <td>{{ transection.get_object.ticket }}</td>
             <td>{{ transection.get_object.quantity }}</td>
             <td>{{ transection.get_object.is_accept }}</td>
-            <td>{{ transection.get_object.created }}</td>
-            <td>{{ transection.created }}</td>
+            <td>{{ transection.get_jalali_date }}</td>
            
         </tr>    
     {% endfor %}

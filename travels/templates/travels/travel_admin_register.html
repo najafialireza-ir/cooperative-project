@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load jalali_tags %}
+
+
+{% block content %}
+<h4>Travel Register:</h4> <br>
+<div style="display: flex; margin-left: 100px;">
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ travel_form.as_p }}
+        <input type="submit" class="btn btn-success">
+    </form>
+
+    <!-- By default, Datepicker using jQuery, you need to set your script after loading jQuery! -->
+	<!-- loading directly -->
+		<link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
+		<script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
+	<!-- OR -->
+	<!-- loading by form (if used AdminJalaliDateWidget) -->
+		{{ form.media }}
+</div> 
+{% endblock %}

@@ -38,7 +38,7 @@
       <tr>
         <th scope="row">{{ forloop.counter }}</th>
         <td>{{ ticket.user }}</td>
-        <td>{{ ticket.travel }}</td>
+        <td>{{ ticket.travel }}--{{ ticket.travel.get_jalali_start_time }}</td>
         
       </tr>
         {% endfor %}

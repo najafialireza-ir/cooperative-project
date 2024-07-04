@@ -4,6 +4,7 @@ from haversine import Unit
 from datetime import timedelta
 from management.models import DriverCar, City, BasePrice, BaseTime
 from accounts.models import User
+from jalali_date import datetime2jalali
 
 
 class Travel(models.Model):
@@ -16,8 +17,11 @@ class Travel(models.Model):
     approved = models.BooleanField(default=False) 
     quantity = models.IntegerField(null=True)
     
+    class Meta:
+        ordering = ('-date_time',)
+    
     def __str__(self):
-        return f'{self.startcity}-{self.destanition}-({self.date_time})'
+        return f'{self.startcity}-{self.destanition}'
 
     @property
     def get_distance(self):
@@ -29,7 +33,6 @@ class Travel(models.Model):
         loc2 = (city_2.lat, city_2.lon)
         result = hs.haversine(loc1,loc2, unit=Unit.KILOMETERS)
         return int(result)
-    
     
     @property
     def get_cost(self):
@@ -45,9 +48,20 @@ class Travel(models.Model):
     
     @property
     def get_capacity(self):
-        user = Ticket.objects.filter(travel=self, user__isnull=False).count()
-        count_quantity = self.quantity - user
-        return count_quantity
+        try:
+            user = Ticket.objects.filter(travel=self, user__isnull=False).count()
+            count_quantity = self.quantity - user
+            return count_quantity
+        except:
+            return self.quantity
+        
+    @property
+    def get_jalali_start_time(self):
+        return datetime2jalali(self.date_time)
+    
+    @property
+    def get_jalali_end_time(self):
+        return datetime2jalali(self.end_time)    
     
     
 class Ticket(models.Model):
@@ -59,5 +73,4 @@ class Ticket(models.Model):
     
     def __str__(self):
         return f'{self.travel}'
-    
     

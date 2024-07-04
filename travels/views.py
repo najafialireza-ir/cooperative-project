@@ -6,6 +6,7 @@ from travels.models import Travel, Ticket
 from django.contrib import messages
 from utils import IsAdmin
 from .forms import TravelForm, TravelRegisterDriverForm
+import datetime
 
 class TravelDetailUserView(View):
     """ ticket detail show for normal user"""   
@@ -25,10 +26,13 @@ class DriverRegisterTravel(LoginRequiredMixin, View):
         if request.user.user_type == '2':
             travel_form = self.travel_form(request.POST)
             if travel_form.is_valid():
-                cd = travel_form.cleaned_data            
+                cd = travel_form.cleaned_data         
+                time = cd['time']
+                date = cd ['date']
+                date_time = datetime.datetime.combine(date, time)   
                 driver = DriverCar.objects.get(driver__user_id=request.user.id)
                 travel = Travel(driver_car=driver, startcity=cd['startcity'],
-                                      destanition=cd['destanition'], date_time=cd['date_time'])
+                                      destanition=cd['destanition'], date_time=date_time)
                 if travel.get_distance != 0:
                     travel.end_time = travel.get_time
                     travel.price = travel.get_cost
@@ -51,12 +55,6 @@ class DriverRegisterTravel(LoginRequiredMixin, View):
         return redirect('home:home')
 
 
-class TravelListView(IsAdmin, View):
-    def get(self, request):
-        travels = Travel.objects.all()
-        return render(request, 'travels/travel_list_admin.html', {'travels':travels})
-               
-
 class ApproveTravelAdminView(IsAdmin, View):
     def get(self, request, travel_id):
         travel = get_object_or_404(Travel, id=travel_id)
@@ -70,21 +68,26 @@ class TravelRegisterView(IsAdmin, View):
     travel_form_class = TravelForm
     def get(self, request):
             travel_form = self.travel_form_class
-            return render(request, 'travels/travel_admin.html', {'travel_form':travel_form})
+            return render(request, 'travels/travel_admin_register.html', {'travel_form':travel_form})
 
     def post(self, request):
         travel_form = self.travel_form_class(request.POST)
         
         if travel_form.is_valid():
             cd = travel_form.cleaned_data
+            time = cd['time']
+            date = cd ['date']
+            date_time = datetime.datetime.combine(date, time)
             travel = Travel(driver_car=cd['driver_car'], startcity=cd['startcity'],
-                                      destanition=cd['destanition'], date_time=cd['date_time'])
+                                      destanition=cd['destanition'], date_time=date_time)
             if travel.get_distance != 0:
                 travel.end_time = travel.get_time
                 travel.price = travel.get_cost
                 travel.quantity = travel.driver_car.car.capacity
                 is_travel_exists = Travel.objects.filter(driver_car=travel.driver_car, 
                                                             date_time__range=[travel.date_time, travel.end_time ]).exists()
+                print(Travel.objects.filter(driver_car=travel.driver_car, 
+                                                            date_time__range=[travel.date_time, travel.end_time ]))
                 if is_travel_exists:
                     messages.error(request, 'driver this time is on travel.', 'danger')
                     return render(request, 'travels/raise_error_trip_driver.html', {'travel':travel})
@@ -93,10 +96,10 @@ class TravelRegisterView(IsAdmin, View):
                 messages.success(request, 'New Travel And Ticket Created', 'success')
                 return redirect('travels:travel_detail')
             messages.error(request, 'startcity and destination can`t the same!!', 'danger')
-            return render(request, 'travels/travel_admin.html', {'travel_form':travel_form})
+            return render(request, 'travels/travel_admin_register.html', {'travel_form':travel_form})
         
         messages.error(request, 'you must complete this form!', 'danger')
-        return render(request, 'travels/travel_admin.html', {'travel_form':travel_form})
+        return render(request, 'travels/travel_admin_register.html', {'travel_form':travel_form})
         
         
 class TicketListAdminView(IsAdmin, View):
@@ -107,9 +110,14 @@ class TicketListAdminView(IsAdmin, View):
 
 class TravelListTicketView(IsAdmin, View):
     def get(self, request):
-        travels = Travel.objects.all()
+        travels = Travel.objects.all().reverse()
         return render(request, 'travels/travel_list_to_ticket.html', {'travels':travels})        
     
+class TravelListView(IsAdmin, View):
+    def get(self, request):
+        travels = Travel.objects.all().reverse()
+        return render(request, 'travels/travel_list_admin.html', {'travels':travels})
+               
 
 class DeleteTravelView(IsAdmin, View):                
     def get(self, request):

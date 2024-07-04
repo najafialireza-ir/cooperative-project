@@ -60,7 +60,8 @@ class OrderPayView(LoginRequiredMixin, View):
                 wallet.withdraw(product_price)
                 order.paid_price = product_price
                 order.save()
-                PurchasedOrder.objects.create(user_id=user_id, order=order)
+                a = PurchasedOrder.objects.create(user_id=user_id, order=order)
+                print(a)
                 TransectionLog.objects.create(transection_type='2', wallet=wallet, 
                                             amount=(-product_price), log_ids=order.id)
                 order.delete()

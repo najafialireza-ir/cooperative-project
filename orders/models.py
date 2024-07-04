@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from travels.models import Ticket
 from .manager import SoftDeleteManager
 from django.db.models.signals import pre_delete
+from jalali_date import datetime2jalali
 
 
 class Order(models.Model):
@@ -40,9 +41,16 @@ class Order(models.Model):
         total_cost = sum(order.get_cost for order in orders)
         return total_cost
     
+    @property
+    def get_jalali_date(self):
+        return datetime2jalali(self.created).replace(microsecond=0)
+    
     
 class PurchasedOrder(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='purchased_user')
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='purchased_order')
     created = models.DateTimeField(auto_now=True)
     
+    @property
+    def get_jalali_date(self):
+        return datetime2jalali(self.created).replace(microsecond=0)

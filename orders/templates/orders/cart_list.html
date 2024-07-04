@@ -66,7 +66,7 @@ table tbody tr th::before {
         <td>{{ order.ticket.travel.destanition }}</td>
         <td>{{ order.ticket.seat_number }}</td>
         <td>{{ order.ticket.travel.price }}</td>
-        <td>{{ order.ticket.travel.date_time.time }}---({{ order.ticket.travel.date_time.date|date:"D-d-m-Y" }})</td>
+        <td>{{ order.ticket.travel.get_jalali_start_time }}</td>
         
         <td><a href="{% url 'orders:order_delete' %}?order_id={{ order.id }}" class="btn btn-danger">Delete</a></td>
       </tr>

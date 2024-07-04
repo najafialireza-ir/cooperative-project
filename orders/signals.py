@@ -11,14 +11,15 @@ from management.models import BaseTimeRefund
 @receiver(pre_delete, sender=Order)
 def return_paid_price(instance, sender, **kwargs):
     ticket = Ticket.objects.get(id=instance.ticket.id)
-    ticket.is_available = True
-    ticket.user = None
-    ticket.save()
     paid_price = instance.paid_price
     try:
         if paid_price:
             ticket.is_available = False
             ticket.user = instance.user
+            ticket.save()
+        else:
+            ticket.is_available = True
+            ticket.user = None
             ticket.save()
     except:
         pass 

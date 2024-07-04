@@ -17,7 +17,7 @@
       <tr>
         <th scope="row">{{ forloop.counter }}</th>
         <td>{{ price.price_per_km }}</td>
-        <td>{{ price.date_time }}</td>
+        <td>{{ price.get_jalali_date }}</td>
       </tr>
       {% endfor %}
 

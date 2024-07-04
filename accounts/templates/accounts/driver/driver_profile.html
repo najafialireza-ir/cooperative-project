@@ -2,7 +2,7 @@
 
 
 {% block content %}
-    <h5>Your Information:</h5> <br>
+    <h5>Your Profile:</h5> <br>
     {% for driver in drivers%}
         <h5>Your Name: {{ driver.driver.user.username }}</h5>
         <h5>Your Car: {{ driver.car }}</h5>

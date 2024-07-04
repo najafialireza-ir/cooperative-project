@@ -60,7 +60,7 @@
           <td>{{ purchase.order.ticket.travel.destanition }}</td>
           <td>{{ purchase.order.ticket.seat_number }}</td>
           <td>{{ purchase.order.paid_price }}.Toman</td>
-          <td>{{ purchase.order.ticket.travel.date_time }}</td>
+          <td>{{ purchase.order.ticket.travel.get_jalali_start_time }}</td>
 
           <td><a href="{% url 'orders:purchase_delete' %}?purchase_id={{ purchase.id }}" class="btn btn-danger">Delete</a></td>
         </tr>

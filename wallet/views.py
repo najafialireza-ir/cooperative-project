@@ -41,7 +41,7 @@ class TransectionRequestListView(IsAdmin, View):
         return redirect('wallet:transection_list')
 
    
-class TransecitonListView(IsAdmin, View): # question
+class TransecitonListView(IsAdmin, View): 
     def get(self, request):
         transection_list = TransectionRequest.objects.all().order_by('-created')
         try:

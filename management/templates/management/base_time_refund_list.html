@@ -17,7 +17,7 @@
       <tr>
         <th scope="row">{{ forloop.counter }}</th>
         <td>{{ item.base_time }}</td>
-        <td>{{ item.created }}</td>
+        <td>{{ item.get_jalali_date }}</td>
       </tr>
       {% endfor %}
 

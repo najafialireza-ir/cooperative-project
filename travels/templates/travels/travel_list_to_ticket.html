@@ -2,7 +2,13 @@
 
 {% block content %}
 <br>
+<h4> Ticket List: </h4> <br>
+<div style="display: flex; gap: 16px; flex-wrap: wrap;">     
     {% for travel in travels %}
-        <a href="{% url 'travels:ticket_list'  travel.id %}" class="btn btn-success">{{ travel }}</a> <br> <br>
+    <div style="height: 100px; width: 350px; border-style: solid ;border-color: rgb(14 165 233); background-color: rgb(255, 255, 255); border-radius: 10px ; display: flex; justify-content: center; align-items: center; box-shadow: 20px 25px 11px -3px rgba(38, 91, 165, 0.1);">
+        <a href="{% url 'travels:ticket_list'  travel.id %}" style="color: black;">{{ travel }} <br>{{ travel.get_jalali_start_time }}</a> <br> <br>
+    </div>
+        
     {% endfor %}
+</div> 
 {% endblock %}

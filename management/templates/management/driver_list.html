@@ -21,7 +21,7 @@
         <td>{{ driver.driver }}</td>
         <td>{{ driver.car }}</td>
         <td>{{ driver.car.capacity }}</td>
-        <td>{{ driver.car_production_date }}</td>
+        <td>{{ driver.get_jalali_date }}</td>
         <td><a href="{% url 'management:driver_delete' %}?driver_id={{ driver.id }}">Remove</a></td>
       </tr>
       {% endfor %}

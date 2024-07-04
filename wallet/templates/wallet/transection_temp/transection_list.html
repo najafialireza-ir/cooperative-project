@@ -31,7 +31,7 @@
             <a href="{% url 'wallet:transection_request' transection.id %}" class="btn btn-warning">True</a></td>
             {% endif %}
         <td> </td>
-        <td>{{ transection.created }}</td>
+        <td>{{ transection.get_jalali_date  }}</td>
       </tr>
       {% endfor %}
     </tbody>
